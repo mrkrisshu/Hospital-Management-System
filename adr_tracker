@@ -1,0 +1,130 @@
+<?php
+// Database connection
+$conn = new mysqli("localhost", "root", "zappeysfc", "myhmsdb");
+if ($conn->connect_error) die("DB Connection Failed: " . $conn->connect_error);
+
+// Simulated patient ID (replace with session later)
+$patient_id = 1;
+
+$adr_alerts = [];
+
+// Form submitted
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $symptoms = strtolower(trim($_POST['symptoms']));
+    $medications = strtolower(trim($_POST['medications']));
+
+    // Save to DB
+    $stmt = $conn->prepare("INSERT INTO daily_logs (patient_id, symptoms, medications) VALUES (?, ?, ?)");
+    $stmt->bind_param("iss", $patient_id, $symptoms, $medications);
+    $stmt->execute();
+
+    // Rule-based ADR detection
+    $symptom_list = array_map('trim', explode(',', $symptoms));
+    $med_list = array_map('trim', explode(',', $medications));
+
+    $adr_rules = [
+        'paracetamol' => ['rash', 'nausea', 'vomiting'],
+        'aspirin' => ['bleeding', 'ulcer', 'stomach pain'],
+        'ibuprofen' => ['dizziness', 'stomach ache', 'nausea'],
+        'amoxicillin' => ['allergy', 'rash', 'diarrhea'],
+        'metformin' => ['metallic taste', 'nausea', 'fatigue'],
+    ];
+
+    foreach ($med_list as $med) {
+        if (isset($adr_rules[$med])) {
+            foreach ($adr_rules[$med] as $side_effect) {
+                if (in_array($side_effect, $symptom_list)) {
+                    $adr_alerts[] = "⚠️ Possible ADR: '$side_effect' may be caused by '$med'";
+                }
+            }
+        }
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ADR Detection - Chronic Illness Focus</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f1f3f6;
+            margin: 0;
+            padding: 30px;
+        }
+        .container {
+            background: white;
+            max-width: 700px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin-top: 5px;
+        }
+        button {
+            margin-top: 20px;
+            background-color: #3498db;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .adr-box {
+            background-color: #ffe6e6;
+            border-left: 6px solid #e74c3c;
+            padding: 12px;
+            margin-top: 20px;
+            border-radius: 6px;
+            color: #c0392b;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>🩺 Daily Log & Rule-Based ADR Detection</h2>
+
+    <form method="POST">
+        <label>Symptoms (comma-separated):</label>
+        <textarea name="symptoms" rows="3" required placeholder="e.g., nausea, rash, headache"></textarea>
+
+        <label>Medications (comma-separated):</label>
+        <textarea name="medications" rows="3" required placeholder="e.g., paracetamol, ibuprofen"></textarea>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <?php if (!empty($adr_alerts)): ?>
+        <h3 style="margin-top: 30px;">🚨 Adverse Drug Reaction Alerts</h3>
+        <?php foreach ($adr_alerts as $alert): ?>
+            <div class="adr-box"><?php echo $alert; ?></div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+</div>
+
+</body>
+</html>

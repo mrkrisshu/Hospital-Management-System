@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact Us - ChronoHealth</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="vendor/fontawesome/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700&display=swap" rel="stylesheet">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        function alphaOnly(event) {
+            var key = event.keyCode;
+            return ((key >= 65 && key <= 90) || key == 8 || key == 32);
+        };
+    </script>
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            font-family: 'Montserrat', sans-serif;
+            color: #333;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+        }
+
+        .navbar-brand h4 {
+            color: white;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand:hover h4 {
+            transform: translateY(-2px);
+        }
+
+        .navbar-brand i {
+            color: #1abc9c;
+            margin-right: 5px;
+        }
+
+        .nav-link h6 {
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover h6 {
+            transform: translateY(-2px);
+            color: #1abc9c !important;
+        }
+
+        .contact-form {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 120px;
+            margin-bottom: 80px;
+            position: relative;
+            max-width: 800px;
+        }
+
+        .contact-image {
+            text-align: center;
+        }
+
+        .contact-image img {
+            width: 80px;
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border-radius: 50%;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-form h3 {
+            margin-bottom: 30px;
+            color: #2c3e50;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 40px;
+            position: relative;
+        }
+
+        .contact-form h3:after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: #1abc9c;
+            margin: 10px auto 0;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            box-shadow: none;
+            border: 1px solid #e1e1e1;
+            padding: 12px 15px;
+            height: auto;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #1abc9c;
+            box-shadow: 0 0 0 0.2rem rgba(26, 188, 156, 0.25);
+        }
+
+        .btnContact {
+            background: #1abc9c;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 25px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .btnContact:hover {
+            background: #16a085;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        textarea.form-control {
+            min-height: 192px;
+            resize: none;
+        }
+
+        .contact-info {
+            margin-top: 50px;
+            padding: 25px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #1abc9c;
+        }
+
+        .contact-info i {
+            color: #1abc9c;
+            font-size: 20px;
+            margin-right: 10px;
+            width: 30px;
+            text-align: center;
+        }
+
+        .contact-info p {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .health-icons {
+            position: absolute;
+            opacity: 0.05;
+            z-index: -1;
+        }
+
+        .health-icon-1 {
+            top: 20px;
+            left: 20px;
+            font-size: 60px;
+        }
+
+        .health-icon-2 {
+            bottom: 20px;
+            right: 20px;
+            font-size: 80px;
+        }
+
+        .health-icon-3 {
+            top: 50%;
+            right: 30px;
+            font-size: 70px;
+        }
+
+        /* Healthcare-related decorative elements */
+        .medical-decoration {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(26, 188, 156, 0.05);
+            z-index: -1;
+        }
+
+        .decoration-1 {
+            top: -50px;
+            left: -50px;
+        }
+
+        .decoration-2 {
+            bottom: -70px;
+            right: -70px;
+            width: 200px;
+            height: 200px;
+        }
+
+        .highlight-text {
+            color: #1abc9c;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .contact-form {
+                margin-top: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand js-scroll-trigger" href="index.php" style="margin-top: 10px; font-family: 'Montserrat', sans-serif;">
+                <h4><i class="fa fa-heartbeat" aria-hidden="true"></i>&nbsp; CHRONOHEALTH</h4>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item" style="margin-right: 40px;">
+                        <a class="nav-link js-scroll-trigger" href="index.php" style="color: white; font-family: 'Montserrat', sans-serif;"><h6>HOME</h6></a>
+                    </li>
+                    <li class="nav-item" style="margin-right: 40px;">
+                        <a class="nav-link js-scroll-trigger" href="services.html" style="color: white; font-family: 'Montserrat', sans-serif;"><h6>ABOUT US</h6></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="contact.html" style="color: white; font-family: 'Montserrat', sans-serif;"><h6>CONTACT</h6></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container contact-form">
+        <!-- Decorative elements -->
+        <div class="medical-decoration decoration-1"></div>
+        <div class="medical-decoration decoration-2"></div>
+        <i class="fa fa-stethoscope health-icons health-icon-1"></i>
+        <i class="fa fa-heartbeat health-icons health-icon-2"></i>
+        <i class="fa fa-medkit health-icons health-icon-3"></i>
+            
+        <div class="contact-image">
+            <img src="https://image.ibb.co/kUagtU/rocket_contact.png" alt="contact_image"/>
+        </div>
+            
+        <form method="post" action="contact.php">
+            <h3>Get in Touch with Our Health Experts</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="text" name="txtName" class="form-control" placeholder="Your Name *" value="" onkeydown="return alphaOnly(event);" required/>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="txtEmail" class="form-control" placeholder="Your Email *" value="" required />
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" name="txtPhone" class="form-control" placeholder="Your Phone Number *" value="" minlength="10" maxlength="10" required />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" name="btnSubmit" class="btnContact" value="Send Message" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <textarea name="txtMsg" class="form-control" placeholder="Your Message *" style="width: 100%; height: 150px;" required></textarea>
+                    </div>
+                </div>
+            </div>
+        </form>
+            
+        <div class="row">
+            <div class="col-md-12">
+                <div class="contact-info">
+                    <h5 class="mb-4">We're Here For You</h5>
+                    <p><i class="fa fa-map-marker"></i> 123 Innovation Drive, Boston, MA 02115</p>
+                    <p><i class="fa fa-phone"></i> +1 (800) 555-1234</p>
+                    <p><i class="fa fa-envelope"></i> support@chronohealth.com</p>
+                    <p><i class="fa fa-clock-o"></i> <span class="highlight-text">24/7</span> Support Available</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
